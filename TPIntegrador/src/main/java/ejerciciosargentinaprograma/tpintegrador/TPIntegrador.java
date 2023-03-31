@@ -10,7 +10,7 @@ public class TPIntegrador {
 
     public static void main(String[] args) {
         /* inicializar en la lectura de datos */
-        int puntos=0;
+        int puntos=0, i=0;
         /* Leer los partidos */
         try {
             for(String linea: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\resultados.csv.txt")))
@@ -26,9 +26,12 @@ public class TPIntegrador {
                 Equipo equipo2 = new Equipo(eq2,eq2);
                 
                 Partido partido = new Partido(equipo1, equipo2, golesEquipo1, golesEquipo2);
-                
-                
-               
+             
+                Partido[] partidoArray = new Partido[2];
+                partidoArray[i] = partido;
+                i++;
+            }
+               i=0;
                 /* Leo pronostico */
                 for(String linea2: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\pronostico.csv.txt")))
                 {
@@ -52,16 +55,17 @@ public class TPIntegrador {
                         res = ResultadoEnum.PERDEDOR;
                     }
                      System.out.println(res);
-                   Pronostico pron = new Pronostico(partido, equipoPronostico, res);
+                   Pronostico pron = new Pronostico( partidoArray[i], equipoPronostico, res);
                      
                      
                     puntos = puntos + pron.puntos();
                     
+                    i++;
                     
                 }
                 
                 System.out.println("PUNTOS: "+puntos);
-            }
+            
             
             } catch (IOException e) {
             throw new RuntimeException(e);
