@@ -12,6 +12,5 @@ public class Equipo {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
-
     
 }
