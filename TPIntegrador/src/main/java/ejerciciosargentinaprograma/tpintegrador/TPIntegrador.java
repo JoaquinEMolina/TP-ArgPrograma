@@ -33,40 +33,40 @@ public class TPIntegrador {
             }
                i=0;
                 /* Leo pronostico */
-                for(String linea2: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\pronostico.csv.txt")))
-                {
-                    System.out.println(linea2);
-                    String equiPro = linea2.split(";")[0];
-                    
-                    Equipo equipoPronostico = new Equipo(equiPro,equiPro);
-                    
-                    /* Si es X en el primero queda GANADOR, en el segundo EMPATE  */
-                    String gana = linea2.split(";")[1];
-                    String empata = linea2.split(";")[2];
-                    String pierde = linea2.split(";")[3];
-                    ResultadoEnum res = null;
-                    if (gana.equals("X")){
-                        res = ResultadoEnum.GANADOR;
-                    }
-                    if (empata.equals("X")){
-                        res = ResultadoEnum.EMPATE;
-                    }
-                     if (pierde.equals("X")){
-                        res = ResultadoEnum.PERDEDOR;
-                    }
-                     System.out.println(res);
-                   Pronostico pron = new Pronostico( partidoArray[i], equipoPronostico, res);
-                     
-                     
-                    puntos = puntos + pron.puntos();
-                    
-                    i++;
-                    
+            for(String linea2: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\pronostico.csv.txt")))
+            {
+                System.out.println(linea2);
+                String equiPro = linea2.split(";")[0];
+
+                Equipo equipoPronostico = new Equipo(equiPro,equiPro);
+
+                /* Si es X en el primero queda GANADOR, en el segundo EMPATE  */
+                String gana = linea2.split(";")[1];
+                String empata = linea2.split(";")[2];
+                String pierde = linea2.split(";")[3];
+                ResultadoEnum res = null;
+                if (gana.equals("X")){
+                    res = ResultadoEnum.GANADOR;
                 }
-                
-                System.out.println("PUNTOS: "+puntos);
-            
-            
+                if (empata.equals("X")){
+                    res = ResultadoEnum.EMPATE;
+                }
+                 if (pierde.equals("X")){
+                    res = ResultadoEnum.PERDEDOR;
+                }
+                 System.out.println(res);
+               Pronostico pron = new Pronostico( partidoArray[i], equipoPronostico, res);
+
+
+                puntos = puntos + pron.puntos();
+
+                i++;
+
+            }
+
+            System.out.println("PUNTOS: "+puntos);
+
+
             } catch (IOException e) {
             throw new RuntimeException(e);
         }
