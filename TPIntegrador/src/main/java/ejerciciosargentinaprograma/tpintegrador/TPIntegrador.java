@@ -11,6 +11,7 @@ public class TPIntegrador {
     public static void main(String[] args) {
         /* inicializar en la lectura de datos */
         int puntos=0, i=0;
+         Partido[] partidoArray = new Partido[2];
         /* Leer los partidos */
         try {
             for(String linea: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\resultados.csv.txt")))
@@ -27,7 +28,7 @@ public class TPIntegrador {
                 
                 Partido partido = new Partido(equipo1, equipo2, golesEquipo1, golesEquipo2);
              
-                Partido[] partidoArray = new Partido[2];
+               
                 partidoArray[i] = partido;
                 i++;
             }

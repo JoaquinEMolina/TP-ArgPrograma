@@ -21,17 +21,11 @@ public class Partido {
     public ResultadoEnum resultado(Equipo equi){
         /* Declaro variables de tipo GANADOR, PERDEDOR O EMPATE para retornarlas como salida, asigno EMPATE solo para inicializar */
         ResultadoEnum  result = ResultadoEnum.EMPATE;
-        int golesEqui = 0, golesRival = 0;
+        int golesEqui, golesRival;
         
         /* Asigno cuantos goles hizo el equipo y cuantos el rival para comparar */
-        if (equi == equipo1){
-                golesEqui = golesEquipo1;
-                golesRival = golesEquipo2;
-        }
-        if (equi == equipo2){
-                golesEqui = golesEquipo2;
-                golesRival = golesEquipo1;
-        }
+        golesEqui = golesEquipo1;
+        golesRival = golesEquipo2;
         
         /* Comparo los resultados */
         if (golesEqui > golesRival){
