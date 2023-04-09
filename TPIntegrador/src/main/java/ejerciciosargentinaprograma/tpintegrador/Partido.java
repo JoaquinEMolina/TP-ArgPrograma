@@ -1,5 +1,7 @@
 package ejerciciosargentinaprograma.tpintegrador;
 
+import java.util.List;
+
 
 public class Partido {
     Equipo equipo1;
@@ -14,11 +16,16 @@ public class Partido {
         this.golesEquipo2 = golesEquipo2;
         
     }
+
+    public Equipo getEquipo1() {
+        return equipo1;
+    }
     
     
     /* Comparo los goles de un equipo enviado y le asigno un resultado de tipo ResultadoEnum y despues comparar 
         por ej: ARGENTINA.EMPATE (pronostico) vs ARGENTINA.RESULTADO (partido) */
     public ResultadoEnum resultado(Equipo equi){
+        
         /* Declaro variables de tipo GANADOR, PERDEDOR O EMPATE para retornarlas como salida, asigno EMPATE solo para inicializar */
         ResultadoEnum  result = ResultadoEnum.EMPATE;
         int golesEqui, golesRival;
