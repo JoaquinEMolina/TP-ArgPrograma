@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TPIntegrador {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws errorPartidoException {
         /* inicializar en la lectura de datos */
         int puntos=0, i=0;
         int ronda=0;
@@ -18,25 +18,38 @@ public class TPIntegrador {
         List <Partido> partidoList = new ArrayList();
         List <Partido> partidoRondaList = new ArrayList();
         List <Jugador> jugadores = new ArrayList();
-        
+        List<String> datosIngresoPartido = new ArrayList();
         
         /* Leer los partidos */
         try {
             for(String linea: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\resultados.csv.txt")))
             {  
-                int rondaf = Integer.parseInt(linea.split(";")[0]);
+                int k;
+                 /* En esta asignación y en el if me aseguro de que se este tratando de la misma ronda, cuando cambia la agrego en la lista de rondas con los partidos leidos */
+                
+                 String[] campos = linea.split("\\;");
+                 
+                 try{
+                Partido linPart  = new Partido(campos);
+                 } catch(errorPartidoException err){
+                     System.out.println("Error: los campos de partido brindados son incorrectos");
+                 }
+                 
+                 
+                int rondaf = Integer.parseInt(campos[0]);
                 if (rondaf!=ronda && i>0){
                     Ronda rondaList = new Ronda(String.valueOf(ronda), partidoRondaList);
                     partidoRondaList.clear();
                 }
                 System.out.println(linea);
                 /* Leo partido */
-                ronda = Integer.parseInt(linea.split(";")[0]);
+                ronda = Integer.parseInt(campos[0]);
+                
 
-                String eq1 = linea.split(";")[1];
-                int golesEquipo1 = Integer.parseInt(linea.split(";")[2]);
-                int golesEquipo2 = Integer.parseInt(linea.split(";")[3]);
-                String eq2 = linea.split(";")[4];
+                String eq1 = campos[1];
+                int golesEquipo1 = Integer.parseInt(campos[2]);
+                int golesEquipo2 = Integer.parseInt(campos[3]);
+                String eq2 = campos[4];
 
                 Equipo equipo1 = new Equipo(eq1,eq1);
                 Equipo equipo2 = new Equipo(eq2,eq2);
@@ -46,14 +59,17 @@ public class TPIntegrador {
                 partidoList.add(partido);
                 partidoRondaList.add(partido);
             i++;
-            
-                
             } 
+            /* Agrego la última ronda, que por el formato del for queda leida pero no guardada */
+            Ronda rondaList = new Ronda(String.valueOf(ronda), partidoRondaList);
+            
             i=0;
                 /* Leo pronostico */
             for(String linea2: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\pronostico.csv.txt")))
             {   
-                String jugProx = linea2.split(";")[0];
+                /* En esta asignación y en el if me aseguro de que se este tratando del mismo jugador, cuando cambia lo agrego en la lista de jugadores con los puntos obtenidos */
+                String[] campos = linea2.split("\\;");
+                String jugProx = campos[0];
                 if (!jugProx.equals(jug) && i>0){
                     Jugador jugador = new Jugador(jug, puntos);
                     jugadores.add(jugador);
@@ -61,16 +77,16 @@ public class TPIntegrador {
                     i=0;
                 }
                 
-                jug = linea2.split(";")[0];
+                jug = campos[0];
                 System.out.println(linea2);
-                String equiPro = linea2.split(";")[1];
+                String equiPro = campos[1];
 
                 Equipo equipoPronostico = new Equipo(equiPro,equiPro);
 
                 /* Si es X en el primero queda GANADOR, en el segundo EMPATE  */
-                String gana = linea2.split(";")[2];
-                String empata = linea2.split(";")[3];
-                String pierde = linea2.split(";")[4];
+                String gana = campos[2];
+                String empata = campos[3];
+                String pierde = campos[4];
                 ResultadoEnum res = null;
                 if (gana.equals("X")){
                     res = ResultadoEnum.GANADOR;
@@ -87,11 +103,15 @@ public class TPIntegrador {
                 puntos = puntos + pron.puntos();
                 i++;
             }
+            
+            /* Agrego el ultimo jugador leido, que por el formato del for queda leido pero no guardado */
             Jugador jugador = new Jugador(jug, puntos);
             jugadores.add(jugador);
             
             
             System.out.println("-------------\nResultados:\n");
+            
+            /* For para barrer resultados de cada jugador */
             for (Jugador juga: jugadores){
                 System.out.println(juga.getNombre() + ": " + juga.getPuntos());
                 

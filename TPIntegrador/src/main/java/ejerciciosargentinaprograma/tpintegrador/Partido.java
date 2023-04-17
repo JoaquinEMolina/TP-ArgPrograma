@@ -9,16 +9,42 @@ public class Partido {
     int golesEquipo1;
     int golesEquipo2;
 
-    public Partido(Equipo equipo1, Equipo equipo2, int golesEquipo1, int golesEquipo2) {
+    public Partido(Equipo equipo1, Equipo equipo2, int golesEquipo1, int golesEquipo2) {        
         this.equipo1 = equipo1;
         this.equipo2 = equipo2;
         this.golesEquipo1 = golesEquipo1;
         this.golesEquipo2 = golesEquipo2;
         
     }
+    
 
     public Equipo getEquipo1() {
         return equipo1;
+    }
+    
+    String[] linea;
+
+    public Partido(String[] linea) throws errorPartidoException {
+        this.linea = linea;
+        if (esEntero(linea[1], linea[2]) == false || linea.length>5){
+            throw new errorPartidoException(linea);
+        }
+    }
+    
+    
+    public static boolean esEntero(String gol1, String gol2) throws NumberFormatException {
+
+        boolean resultado;
+        try {
+            Integer.parseInt(gol1);
+            Integer.parseInt(gol2);
+            resultado = true;
+            
+        } catch (NumberFormatException error) {
+            resultado = false;
+        }
+
+        return resultado;
     }
     
     
