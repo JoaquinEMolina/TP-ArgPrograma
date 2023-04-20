@@ -26,7 +26,7 @@ public class Partido {
 
     public Partido(String[] linea) throws errorPartidoException {
         this.linea = linea;
-        if (esEntero(linea[1], linea[2]) == false || linea.length>5){
+        if (esEntero(linea[2], linea[3]) == false || linea.length>5){
             throw new errorPartidoException(linea);
         }
     }

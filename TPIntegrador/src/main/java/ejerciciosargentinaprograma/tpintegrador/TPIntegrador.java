@@ -19,9 +19,12 @@ public class TPIntegrador {
         List <Partido> partidoRondaList = new ArrayList();
         List <Jugador> jugadores = new ArrayList();
         List<String> datosIngresoPartido = new ArrayList();
+        MysqlCon con = new MysqlCon();
+        
         
         /* Leer los partidos */
         try {
+            try{
             for(String linea: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\resultados.csv.txt")))
             {  
                 int k;
@@ -29,11 +32,9 @@ public class TPIntegrador {
                 
                  String[] campos = linea.split("\\;");
                  
-                 try{
+                 
                 Partido linPart  = new Partido(campos);
-                 } catch(errorPartidoException err){
-                     System.out.println("Error: los campos de partido brindados son incorrectos");
-                 }
+                 
                  
                  
                 int rondaf = Integer.parseInt(campos[0]);
@@ -116,7 +117,9 @@ public class TPIntegrador {
                 System.out.println(juga.getNombre() + ": " + juga.getPuntos());
                 
             }
-
+            } catch(errorPartidoException err){
+                     System.out.println("Error: los campos de partido brindados son incorrectos");
+                 }
 
             } catch (IOException e) {
             throw new RuntimeException(e);
