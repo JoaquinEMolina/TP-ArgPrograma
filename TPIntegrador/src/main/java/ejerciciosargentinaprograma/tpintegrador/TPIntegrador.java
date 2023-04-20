@@ -4,6 +4,9 @@ package ejerciciosargentinaprograma.tpintegrador;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,18 @@ public class TPIntegrador {
         List <Partido> partidoRondaList = new ArrayList();
         List <Jugador> jugadores = new ArrayList();
         List<String> datosIngresoPartido = new ArrayList();
-        MysqlCon con = new MysqlCon();
+        
+        /* intento conexion */
+        try{
+              Class.forName("com.mysql.jdbc.Driver");
+              Connection
+                      con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpintegrador","root","admin");
+              Statement stmt=con.createStatement();
+              System.out.println("Conexion exitosa");
+              //USO DE LA DB
+              con.close();
+              System.out.println("Conexion cerrada");
+         }catch (Exception e){ System.out.println(e);}
         
         
         /* Leer los partidos */
