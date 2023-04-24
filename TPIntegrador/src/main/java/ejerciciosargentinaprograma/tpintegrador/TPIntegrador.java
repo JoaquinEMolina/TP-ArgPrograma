@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class TPIntegrador {
         try{
               Connection
                       con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpintegrador","root","admin");
-              Statement stmt=con.createStatement();
+              Statement stmt = con.createStatement();
               System.out.println("Conexion exitosa");
               //USO DE LA DB
              
@@ -74,9 +75,31 @@ public class TPIntegrador {
             /* Agrego la última ronda, que por el formato del for queda leida pero no guardada */
             Ronda rondaList = new Ronda(String.valueOf(ronda), partidoRondaList);
             
+            
             i=0;
+             /* BUSCO LA CONEXION */
+                String sql = "SELECT j.nombreJugador, pa.nombreEquipo1, re.resultado as Resultado_pronosticado, pa.Ronda_idRonda, pa.idPartido " +
+                                    "FROM pronostico pr " +
+                                    "JOIN resultado re " +
+                                    "ON pr.Resultado_idResultado = re.idResultado " +
+                                    "JOIN partido pa " +
+                                    "ON pr.Partido_idPartido = pa.idPartido " +
+                                    "JOIN ronda ro " +
+                                    "ON pr.Partido_Ronda_idRonda = ro.idRonda " +
+                                    "JOIN jugador j " +
+                                    "ON pr.Jugador_idJugador = j.idJugador " +
+                                    "ORDER BY idpronostico";
+             
+             ResultSet rs = stmt.executeQuery(sql);
+             List <String> pronostList = new ArrayList();
+             
+             int l=0;
+             while (rs.next()){
+                 pronostList.add(rs.getString(1) + ";" + rs.getString(2) + ";" + rs.getString(3) + ";" + rs.getString(4) + ";" + rs.getString(5));
+             }            
+            
                 /* Leo pronostico */
-            for(String linea2: Files.readAllLines(Paths.get("src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\pronostico.csv.txt")))
+            for(String linea2: pronostList)
             {   
                 /* En esta asignación y en el if me aseguro de que se este tratando del mismo jugador, cuando cambia lo agrego en la lista de jugadores con los puntos obtenidos */
                 String[] campos = linea2.split("\\;");
@@ -93,19 +116,18 @@ public class TPIntegrador {
                 String equiPro = campos[1];
 
                 Equipo equipoPronostico = new Equipo(equiPro,equiPro);
+                
 
                 /* Si es X en el primero queda GANADOR, en el segundo EMPATE  */
-                String gana = campos[2];
-                String empata = campos[3];
-                String pierde = campos[4];
+                String resultado = campos[2];
                 ResultadoEnum res = null;
-                if (gana.equals("X")){
+                if (resultado.equals("GANADOR")){
                     res = ResultadoEnum.GANADOR;
                 }
-                if (empata.equals("X")){
+                if (resultado.equals("EMPATE")){
                     res = ResultadoEnum.EMPATE;
                 }
-                 if (pierde.equals("X")){
+                 if (resultado.equals("PERDEDOR")){
                     res = ResultadoEnum.PERDEDOR;
                 }
                  System.out.println(res);
