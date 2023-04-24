@@ -25,21 +25,17 @@ public class TPIntegrador {
         
         /* intento conexion */
         try{
-              Class.forName("com.mysql.jdbc.Driver");
               Connection
                       con=DriverManager.getConnection("jdbc:mysql://localhost:3306/tpintegrador","root","admin");
               Statement stmt=con.createStatement();
               System.out.println("Conexion exitosa");
               //USO DE LA DB
-              con.close();
-              System.out.println("Conexion cerrada");
-         }catch (Exception e){ System.out.println(e);}
-        
+             
         
         /* Leer los partidos */
         try {
             try{
-            for(String linea: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\resultados.csv.txt")))
+            for(String linea: Files.readAllLines(Paths.get("src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\resultados.csv.txt")))
             {  
                 int k;
                  /* En esta asignación y en el if me aseguro de que se este tratando de la misma ronda, cuando cambia la agrego en la lista de rondas con los partidos leidos */
@@ -80,7 +76,7 @@ public class TPIntegrador {
             
             i=0;
                 /* Leo pronostico */
-            for(String linea2: Files.readAllLines(Paths.get("C:\\Users\\Joaquin\\Documents\\TP integrador\\TP-ArgPrograma\\TPIntegrador\\src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\pronostico.csv.txt")))
+            for(String linea2: Files.readAllLines(Paths.get("src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\pronostico.csv.txt")))
             {   
                 /* En esta asignación y en el if me aseguro de que se este tratando del mismo jugador, cuando cambia lo agrego en la lista de jugadores con los puntos obtenidos */
                 String[] campos = linea2.split("\\;");
@@ -138,6 +134,10 @@ public class TPIntegrador {
             } catch (IOException e) {
             throw new RuntimeException(e);
         }
+         con.close();
+              System.out.println("Conexion cerrada");
+         }catch (Exception e){ System.out.println(e);}
+        
         
         
               
