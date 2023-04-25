@@ -33,4 +33,12 @@ public class Pronostico {
             return 0;
         }
     }
+       public boolean puntosExtra(int puntos, int cantidadPartidos) {
+        return puntos >= cantidadPartidos ? true : false;
+
+    }
+    
+
 }
+
+

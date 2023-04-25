@@ -1,6 +1,7 @@
 
 package ejerciciosargentinaprograma.tpintegrador;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 
 public class TPIntegrador {
@@ -22,7 +24,20 @@ public class TPIntegrador {
         List <Partido> partidoList = new ArrayList();
         List <Partido> partidoRondaList = new ArrayList();
         List <Jugador> jugadores = new ArrayList();
-        List<String> datosIngresoPartido = new ArrayList();
+        boolean aceptarPuntosExtra = false;
+        Properties props = new Properties();
+
+        try {
+
+            FileInputStream file = new FileInputStream("src\\main\\java\\ejerciciosargentinaprograma\\tpintegrador\\config.ini");
+            props.load(file);
+            aceptarPuntosExtra = Boolean.parseBoolean(props.getProperty("aplicarPuntosExtra"));
+            System.out.println("Puntos extras aplicados: " + aceptarPuntosExtra);
+            file.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
         /* intento conexion */
         try{
@@ -32,7 +47,6 @@ public class TPIntegrador {
               System.out.println("Conexion exitosa");
               //USO DE LA DB
              
-        
         /* Leer los partidos */
         try {
             try{
@@ -45,7 +59,6 @@ public class TPIntegrador {
                  
                  
                 Partido linPart  = new Partido(campos);
-                 
                  
                  
                 int rondaf = Integer.parseInt(campos[0]);
@@ -118,7 +131,7 @@ public class TPIntegrador {
                 Equipo equipoPronostico = new Equipo(equiPro,equiPro);
                 
 
-                /* Si es X en el primero queda GANADOR, en el segundo EMPATE  */
+               /* Matcheo de resultado */
                 String resultado = campos[2];
                 ResultadoEnum res = null;
                 if (resultado.equals("GANADOR")){
@@ -130,10 +143,15 @@ public class TPIntegrador {
                  if (resultado.equals("PERDEDOR")){
                     res = ResultadoEnum.PERDEDOR;
                 }
-                 System.out.println(res);
                Pronostico pron = new Pronostico(partidoList.get(i), equipoPronostico, res);
                
-                puntos = puntos + pron.puntos();
+               puntos = puntos + pron.puntos();
+               
+                 if (aceptarPuntosExtra) {
+                        if (pron.puntosExtra(puntos, partidoList.size())) {
+                            puntos = puntos + 3;
+                        }
+                    }
                 i++;
             }
             
