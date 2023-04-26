@@ -66,7 +66,6 @@ public class TPIntegrador {
                     Ronda rondaList = new Ronda(String.valueOf(ronda), partidoRondaList);
                     partidoRondaList.clear();
                 }
-                System.out.println(linea);
                 /* Leo partido */
                 ronda = Integer.parseInt(campos[0]);
                 
@@ -125,7 +124,6 @@ public class TPIntegrador {
                 }
                 
                 jug = campos[0];
-                System.out.println(linea2);
                 String equiPro = campos[1];
 
                 Equipo equipoPronostico = new Equipo(equiPro,equiPro);
@@ -175,7 +173,7 @@ public class TPIntegrador {
             throw new RuntimeException(e);
         }
          con.close();
-              System.out.println("Conexion cerrada");
+              System.out.println("---------------------\nConexion cerrada");
          }catch (Exception e){ System.out.println(e);}
         
         
